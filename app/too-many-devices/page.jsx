@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { Suspense } from 'react';
 
 export default function TooManyDevicesPage() {
   const router = useRouter();
@@ -49,6 +50,7 @@ export default function TooManyDevicesPage() {
   }
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div className="p-6 w-full">
       <h1 className="text-2xl font-bold">Login Blocked</h1>
       <p>Reason: {reason}</p>
@@ -83,5 +85,6 @@ export default function TooManyDevicesPage() {
       }
       </div>
     </div>
+  </Suspense>
   );
 }
