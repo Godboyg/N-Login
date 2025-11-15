@@ -15,6 +15,7 @@ function page() {
   const [isTrue , setIsTrue] = useState(false);
   const [stage , setStage] = useState("add");
   const logoutRef = useRef(false);
+  const clickedOnce = useRef(false);
   const [formdata , setFormData] = useState({
     fullName: "",
     phoneNumber: ""
@@ -78,7 +79,9 @@ function page() {
         }
       } catch (error) {
         setIsTrue(false);
-        if(!logoutRef.current) {
+        if(!clickedOnce.current) {
+          clickedOnce.current = true;
+          console.log("logging....out!");
           logoutRef.current = true;
           logoutRef.current?.click();
         }
