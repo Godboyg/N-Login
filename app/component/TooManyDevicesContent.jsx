@@ -13,7 +13,6 @@ export default function TooManyDevicesPage() {
   const sessions = searchParams.get('currentSessions');
   const [devices , setDevices] = useState([]);
   const [loading , setLoading] = useState(true);
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     async function fetchUser() {
@@ -55,7 +54,7 @@ export default function TooManyDevicesPage() {
       <p>User ID: {userId}</p>
       <p>Active Sessions: {sessions}</p>
       {/* <pre>{JSON.stringify(response , null , 2)}</pre> */}
-      <div className="w-full">
+      <div className="w-full mt-5">
         {
         loading ? (
             <div className="">Loading.........</div>
@@ -63,11 +62,14 @@ export default function TooManyDevicesPage() {
             (
          devices.length > 0 ? (
             devices.map((device, key) => (
-                <div className="p-2 group hover:cursor-pointer relative flex flex-col gap-0.5 items-center shadow-black shadow-[2px_2px_2px]"
-                onClick={() => setOpen(!open)}>
-                    <div className={`absolute shadow-black shadow-[3px_3px_3px] top-5 right-5 hidden lg:group-hover:block hover:cursor-pointer ${open ? "block" : "hidden"}`}
+                <div className="p-2 group hover:cursor-pointer relative flex flex-col gap-0.5 items-center shadow-black shadow-[2px_2px_2px]">
+                    <div className="absolute p-2 z-9999 top-5 right-5 hidden lg:group-hover:block hover:cursor-pointer"
                     onClick={() => handleClick(device.userAgent.split(" ")[0])}>
                       Remove User
+                    </div>
+                    <div className="absolute z-9999 top-5 right-0 block lg:hidden"
+                    onClick={() => handleClick(device.userAgent.split(" ")[0])}>
+                      Remove
                     </div>
                     <p>{device.userId}</p>
                     <p>{device.userAgent.split(" ")[0]}</p>
