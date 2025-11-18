@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { number } from "motion";
 
 const sessionSchema = new mongoose.Schema({
   userId: { type: String, required: true },

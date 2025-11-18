@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/connectDB";
-import Session from "@/app/models/Session";
+import { connectDB } from "@/libs/db";
+import Session from "@/models/Session";
 
 export async function GET(request){
     try{
@@ -45,7 +45,7 @@ export async function PATCH(req) {
     const user = await Session.findOne({ userAgent });
 
     if(!user){
-        return NextResponse.json({ message: "user not found! "}, { status: 400});
+        return NextResponse.json({ message: "user not found!"}, { status: 400});
     }
 
     if(!user.phoneNumber && !user.fullName){

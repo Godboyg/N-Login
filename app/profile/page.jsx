@@ -11,8 +11,11 @@ function page() {
 
   const handleDeleteSession = async() => {
     try{
-      const response = await axios.post("/api/deleteSession",{
-        userAgent: navigator.userAgent.split(" ")[0]
+      const userAgent = navigator.userAgent.split(" ")[0]
+      const response = await axios.delete("/api/deleteSession",{
+        data: {
+          userAgent
+        }
       })
 
       const { message , user } = response.data;

@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react'
-import { useUser } from "@auth0/nextjs-auth0"
+import { useUser } from "@auth0/nextjs-auth0/client";
 import Image from 'next/image';
 import axios from 'axios';
 import { redirect } from 'next/navigation';
@@ -8,10 +8,11 @@ import { motion , AnimatePresence} from "motion/react"
 import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast';
 import { userAgent } from 'next/server';
+import { useRouter } from "next/navigation";
 
 function page() {
 
-  const { user , isLoading } = useUser();
+  const {user , isLoading } = useUser();
   const [isTrue , setIsTrue] = useState(false);
   const [stage , setStage] = useState("add");
   const logoutRef = useRef(false);
@@ -20,6 +21,7 @@ function page() {
     fullName: "",
     phoneNumber: ""
   })
+  const router = useRouter();
 
   useEffect(() => {
     const interval = setTimeout(async() => {
@@ -79,11 +81,8 @@ function page() {
         }
       } catch (error) {
         setIsTrue(false);
-        if(!clickedOnce.current) {
-          clickedOnce.current = true;
-          console.log("logging....out!");
-          logoutRef.current = true;
-          logoutRef.current?.click();
+        if(user && logoutRef.current){
+          logoutRef.current.click();
         }
         console.log("Error",error);
         console.log("response ", error.response.data.message);
@@ -104,7 +103,7 @@ function page() {
         }
        })
 
-      const { message, deletedSession } = response.data;
+      const { message, user } = response.data;
       console.log("response deleted session", message , deletedSession); 
     }
 
@@ -154,6 +153,9 @@ function page() {
     } catch(error) {
       setStage("add");
       console.log("error", error);
+      if(error.response.data.message === "user not found!"){
+        setIsTrue(false);
+      }
       toast.error("something happend try again!!")
     }
   }

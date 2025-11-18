@@ -1,7 +1,7 @@
-import { connectDB } from "@/lib/connectDB";
+import { connectDB } from "@/libs/db";
 import { NextResponse } from "next/server";
 import redis from "@/app/lib/redis";
-import Session from "@/app/models/Session";
+import Session from "@/models/Session";
 import { redirect } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0";
 
@@ -69,7 +69,7 @@ export async function POST(request){
                 userId,
                 deviceId,
                 ip,
-                userAgent: agent,
+                userAgent,
             })
 
             console.log("new user",newUser);

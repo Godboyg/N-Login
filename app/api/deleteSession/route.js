@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/connectDB";
-import Session from "@/app/models/Session";
+import { connectDB } from "@/libs/db";
+import Session from "@/models/Session";
 
 export async function OPTIONS() {
   return new NextResponse(null, {
