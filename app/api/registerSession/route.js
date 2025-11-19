@@ -66,8 +66,7 @@ export async function POST(request){
         }
 
         const existingUser = await Session.findOne({ userId , deviceId });
-
-        if(!existingUser){
+        console.log("existing user",existingUser);
 
             const data = {
                 userId,
@@ -89,7 +88,6 @@ export async function POST(request){
              } , {
                 status : 200
              })    
-        }
     } 
     catch (error) {
         console.error("Error registering session:", error);
