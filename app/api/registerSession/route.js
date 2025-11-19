@@ -65,12 +65,14 @@ export async function POST(request){
         }
 
         if(activeSessions.length < MAX_DEVICES && !user){
-            const newUser = await Session.create({
+            const newUser = new Session({
                 userId,
                 deviceId,
                 ip,
                 userAgent,
             })
+
+            await newUser.save();
 
             console.log("new user",newUser);
 

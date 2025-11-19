@@ -104,7 +104,7 @@ function page() {
        })
 
       const { message, user } = response.data;
-      console.log("response deleted session", message , deletedSession); 
+      console.log("response deleted session", message , user); 
     }
 
     handleDeleteSession();
