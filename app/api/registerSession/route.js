@@ -1,7 +1,7 @@
 import { connectDB } from "@/libs/db";
 import { NextResponse } from "next/server";
 import redis from "@/app/lib/redis";
-import Session from "@/models/session";
+import Session from "../../../models/session";
 import { redirect } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0";
 
@@ -67,7 +67,7 @@ export async function POST(request){
 
         const existingUser = await Session.findOne({ userId , deviceId });
 
-        if(existingUser){
+        if(!existingUser){
 
             const data = {
                 userId,

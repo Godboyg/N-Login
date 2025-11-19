@@ -3,10 +3,10 @@ import mongoose, { Schema } from "mongoose";
 const SessionSchema = new Schema({
   userId: { type: String, required: true },
   deviceId: { type: String, required: true },
-  ip: String,
-  userAgent: String,
-  fullName: String,
-  phoneNumber: Number,
+  ip: { type: String },
+  userAgent: { type: String },
+  fullName: { type: String },
+  phoneNumber: { type: Number},
   createdAt: { type: Date, default: Date.now },
   lastActive: { type: Date, default: Date.now },
 });
