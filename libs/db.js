@@ -7,7 +7,6 @@ if (!MONGODB_URI) {
   throw new Error("Please define MONGODB_URI inside .env.local");
 }
 
-// Global cache for hot reload (Next.js serverless)
 let cached = global.mongooseCache;
 
 if (!cached) {
@@ -18,7 +17,10 @@ export async function connectDB() {
   if (cached.conn) return cached.conn;
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI).then((m) => m);
+    cached.promise = mongoose.connect(MONGODB_URI).then((m) => {
+      console.log("DB CONNECTED!");
+      return m;
+    });
   }
 
   cached.conn = await cached.promise;

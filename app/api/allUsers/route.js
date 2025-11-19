@@ -1,6 +1,6 @@
 import { connectDB } from "@/libs/db";
 import { NextResponse } from "next/server";
-import Session from "@/models/Session";
+import Session from "@/models/userSession";
 
 export async function GET(req) {
     try{

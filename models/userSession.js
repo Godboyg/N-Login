@@ -11,4 +11,6 @@ const sessionSchema = new mongoose.Schema({
   lastActive: { type: Date, default: Date.now },
 });
 
-export default mongoose.models.Session || mongoose.model("Session", sessionSchema);
+const SessionModel =  mongoose.models.Session || mongoose.model("Session", sessionSchema);
+
+export default SessionModel;
