@@ -1,7 +1,7 @@
 import { connectDB } from "@/libs/db";
 import { NextResponse } from "next/server";
 import redis from "@/app/lib/redis";
-import Session from "@/models/userSession";
+import SessionModel from "@/models/userSession";
 import { redirect } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0";
 
@@ -12,7 +12,7 @@ export async function GET(request){
         const userId = searchParams.get("userId");
         console.log("userid",userId);
 
-        const user = await Session.find({ userId });
+        const user = await SessionModel.find({ userId });
         // const user = await Session.find();
 
         if(!user){
@@ -50,13 +50,13 @@ export async function POST(request){
             return NextResponse.json({ error: "Missing userId" }, { status: 400 });
         }
 
-        const user = await Session.findOne({ userAgent });
+        const user = await SessionModel.findOne({ userAgent });
 
         if(user){
             return NextResponse.json({ message: "User already logged in on this device." } , { status: 409 });
         }
 
-        const activeSessions = await Session.find({ userId });
+        const activeSessions = await SessionModel.find({ userId });
         // console.log("activesessions ", activeSessions);
 
         if(activeSessions.length >= MAX_DEVICES){
@@ -64,15 +64,20 @@ export async function POST(request){
             return NextResponse.json({ activeSessions })
         }
 
-        if(activeSessions.length < MAX_DEVICES && !user){
-            const newUser = new Session({
+        const existingUser = await SessionModel.findOne({ userId , deviceId });
+
+        if(existingUser){
+
+            const data = {
                 userId,
                 deviceId,
                 ip,
-                userAgent,
-            })
+                userAgent
+            }
 
-            await newUser.save();
+            console.log("body data",data);
+
+            const newUser = new SessionModel.create(data);
 
             console.log("new user",newUser);
 

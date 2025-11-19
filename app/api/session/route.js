@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/libs/db";
-import Session from "@/models/userSession";
+import SessionModel from "@/models/userSession";
 
 export async function GET(request){
     try{
@@ -12,7 +12,7 @@ export async function GET(request){
 
         // const userAgent = User.trim();
 
-        const user = await Session.findOne({ userAgent });
+        const user = await SessionModel.findOne({ userAgent });
 
         console.log("user found", user);
 
@@ -42,7 +42,7 @@ export async function PATCH(req) {
       );
     }
 
-    const user = await Session.findOne({ userAgent });
+    const user = await SessionModel.findOne({ userAgent });
 
     if(!user){
         return NextResponse.json({ message: "user not found!"}, { status: 400});
