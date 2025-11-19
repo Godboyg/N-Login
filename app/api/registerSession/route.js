@@ -51,13 +51,14 @@ export async function POST(request){
         }
 
         const user = await SessionModel.findOne({ userAgent });
+        console.log("user in db",user);
 
         if(user){
             return NextResponse.json({ message: "User already logged in on this device." } , { status: 409 });
         }
 
         const activeSessions = await SessionModel.find({ userId });
-        // console.log("activesessions ", activeSessions);
+        console.log("activesessions ", activeSessions);
 
         if(activeSessions.length >= MAX_DEVICES){
             console.log("not allowed!!");
