@@ -1,5 +1,5 @@
-import { connectDB } from "@/libs/db";
-import SessionModel from "@/models/userSession";
+import connectDB from "@/libs/db";
+import SessionModel from "@/models/session";
 import { NextResponse } from "next/server";
 import redis from "@/app/lib/redis";
 

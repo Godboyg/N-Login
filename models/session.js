@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-const sessionSchema = new mongoose.Schema({
+const SessionSchema = new Schema({
   userId: { type: String, required: true },
   deviceId: { type: String, required: true },
   ip: String,
@@ -11,6 +11,6 @@ const sessionSchema = new mongoose.Schema({
   lastActive: { type: Date, default: Date.now },
 });
 
-const SessionModel =  mongoose.models.Session || mongoose.model("Session", sessionSchema);
+const SessionModel =  mongoose.models.Session || mongoose.model("Session", SessionSchema);
 
 export default SessionModel;

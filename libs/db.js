@@ -13,7 +13,7 @@ if (!cached) {
   cached = global.mongooseCache = { conn: null, promise: null };
 }
 
-export async function connectDB() {
+const connectDB = async() => {
   if (cached.conn) return cached.conn;
 
   if (!cached.promise) {
@@ -26,3 +26,5 @@ export async function connectDB() {
   cached.conn = await cached.promise;
   return cached.conn;
 }
+
+export default connectDB;

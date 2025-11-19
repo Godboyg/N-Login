@@ -1,7 +1,7 @@
-import { connectDB } from "@/libs/db";
+import connectDB from "@/libs/db";
 import { NextResponse } from "next/server";
 import redis from "@/app/lib/redis";
-import SessionModel from "@/models/userSession";
+import SessionModel from "@/models/session";
 import { redirect } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0";
 
