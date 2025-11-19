@@ -1,7 +1,7 @@
 import { connectDB } from "@/libs/db";
 import { NextResponse } from "next/server";
 import redis from "@/app/lib/redis";
-import SessionModel from "@/models/session";
+import Session from "@/models/session";
 import { redirect } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0";
 
@@ -12,7 +12,7 @@ export async function GET(request){
         const userId = searchParams.get("userId");
         console.log("userid",userId);
 
-        const user = await SessionModel.find({ userId });
+        const user = await Session.find({ userId });
         // const user = await Session.find();
 
         if(!user){
@@ -50,14 +50,14 @@ export async function POST(request){
             return NextResponse.json({ error: "Missing userId" }, { status: 400 });
         }
 
-        const user = await SessionModel.findOne({ userAgent });
+        const user = await Session.findOne({ userAgent });
         console.log("user in db",user);
 
         if(user){
             return NextResponse.json({ message: "User already logged in on this device." } , { status: 409 });
         }
 
-        const activeSessions = await SessionModel.find({ userId });
+        const activeSessions = await Session.find({ userId });
         console.log("activesessions ", activeSessions);
 
         if(activeSessions.length >= MAX_DEVICES){
@@ -65,7 +65,7 @@ export async function POST(request){
             return NextResponse.json({ activeSessions })
         }
 
-        const existingUser = await SessionModel.findOne({ userId , deviceId });
+        const existingUser = await Session.findOne({ userId , deviceId });
 
         if(existingUser){
 
@@ -78,7 +78,7 @@ export async function POST(request){
 
             console.log("body data",data);
 
-            const newUser = new SessionModel.create(data);
+            const newUser = new Session.create(data);
 
             console.log("new user",newUser);
 

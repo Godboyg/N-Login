@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/libs/db";
-import SessionModel from "@/models/session";
+import Session from "@/models/session";
 
 export async function OPTIONS() {
   return new NextResponse(null, {
@@ -26,7 +26,7 @@ export async function DELETE(request) {
             return NextResponse.json({ message: "missing userAgent" }, { status: 400 });
         }
 
-        const user = await SessionModel.deleteOne({ userAgent });
+        const user = await Session.deleteOne({ userAgent });
 
         console.log("all user deleted", user);
 
