@@ -4,10 +4,12 @@ import redis from "@/app/lib/redis";
 import Session from "../../../models/session";
 import { redirect } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0";
+import mongoose from "mongoose";
 
 export async function GET(request){
     try{
-        await connectDB();
+        // await connectDB();
+        mongoose.connect(process.env.MONGODB_URI).then(() => console.log("✅ DB CONNECTED!"));
         const { searchParams } = new URL(request.url);
         const userId = searchParams.get("userId");
         console.log("userid",userId);
@@ -35,7 +37,8 @@ export async function GET(request){
 
 export async function POST(request){
     try{
-        await connectDB();
+        // await connectDB();
+        mongoose.connect(process.env.MONGODB_URI).then(() => console.log("✅ DB CONNECTED!"));
         const body = await request.json();
         const { userId, ip, userAgent } = body;
         console.log("user info", userId , ip, userAgent);
@@ -77,7 +80,7 @@ export async function POST(request){
 
             console.log("body data",data);
 
-            const newUser = new Session.create(data);
+            const newUser = await Session.create(data);
 
             console.log("new user",newUser);
 

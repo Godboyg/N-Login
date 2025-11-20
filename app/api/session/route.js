@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/libs/db";
-import Session from "../../../models/session";
+import Session from "@/models/session";
+import mongoose from "mongoose";
 
 export async function GET(request){
     try{
-        await connectDB();
+        // await connectDB();
+        mongoose.connect(process.env.MONGODB_URI).then(() => console.log("✅ DB CONNECTED!"));
         const { searchParams } =  new URL(request.url);
         const userAgent = searchParams.get("userAgent");
 

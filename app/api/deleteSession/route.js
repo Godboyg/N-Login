@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/libs/db";
 import Session from "../../../models/session";
+import mongoose from "mongoose";
 
 export async function OPTIONS() {
   return new NextResponse(null, {
@@ -15,7 +16,8 @@ export async function OPTIONS() {
 
 export async function DELETE(request) {
     try{
-        await connectDB();
+        // await connectDB();
+        mongoose.connect(process.env.MONGODB_URI).then(() => console.log("✅ DB CONNECTED!"));
         const body = await request.json();
         const { userAgent } = body;
         console.log("user agent!!!", userAgent);

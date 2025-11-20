@@ -2,10 +2,12 @@ import { connectDB } from "@/libs/db";
 import Session from "../../../models/session";
 import { NextResponse } from "next/server";
 import redis from "@/app/lib/redis";
+import mongoose from "mongoose";
 
 export async function POST(request) {
     try{
-        await connectDB();
+        // await connectDB();
+        mongoose.connect(process.env.MONGODB_URI).then(() => console.log("✅ DB CONNECTED!"));
         const body = await request.json();
         const { userAgent } = body;
         console.log("user agent", userAgent);
