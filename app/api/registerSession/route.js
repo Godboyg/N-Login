@@ -60,6 +60,9 @@ export async function POST(request){
     try{
         // await connectDB();
         await mongoose.connect(process.env.MONGODB_URI)
+        const origin = request.headers.get("origin");
+        console.log("origin", origin);
+        const allowedOrigin = allowedOrigins.includes(origin) ? origin : "";
         const body = await request.json();
         const { userId, ip, userAgent } = body;
         console.log("user info", userId , ip, userAgent);
@@ -113,7 +116,7 @@ export async function POST(request){
              } , {
                 status : 200,
                 headers: {
-                    "Access-Control-Allow-Origin": process.env.AUTH0_DOMAIN,
+                    "Access-Control-Allow-Origin": allowedOrigin,
                     "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
                     "Access-Control-Allow-Headers": "Content-Type, Authorization",
                 }
