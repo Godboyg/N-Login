@@ -5,18 +5,14 @@ import User from "@/models/User";
 import { redirect } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0";
 import mongoose from "mongoose";
-
-const allowedOrigins = [
-  "https://n-login.vercel.app",
-  process.env.AUTH0_DOMAIN,
-];
+import { createUser } from "./create";
 
 export async function OPTIONS(request) {
 
     return new NextResponse.json(null, {
         status: 200,
         headers: {
-          "Access-Control-Allow-Origin": "https://n-login.vercel.app",
+          "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
           "Access-Control-Allow-Headers": "Content-Type, Authorization",
         }
@@ -88,28 +84,26 @@ export async function POST(request){
         const existingUser = await User.findOne({ userId , deviceId });
         console.log("existing user",existingUser);
 
-            const data = {
-                userId,
-                deviceId,
-                ip,
-                userAgent
-            }
+        await createUser(userId , deviceId , ip , userAgent);
 
-            console.log("body data",data);
+            // const newUser = new User({
+            //     userId,
+            //     deviceId,
+            //     ip,
+            //     userAgent
+            // });
 
-            const newUser = await User.create(data);
-
-            console.log("new user",newUser);
+            // await newUser.save();
 
             // return NextResponse.redirect(new URL("/", request.url));
 
             return NextResponse.json({ 
                 message: "Session Registered Successfully",
-                newUser
+                // newUser
              } , {
                 status : 200,
                 headers: {
-                    "Access-Control-Allow-Origin": process.env.AUTH0_DOMAIN,
+                    "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
                     "Access-Control-Allow-Headers": "Content-Type, Authorization",
                 }
