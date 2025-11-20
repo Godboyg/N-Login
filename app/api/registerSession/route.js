@@ -6,6 +6,27 @@ import { redirect } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0";
 import mongoose from "mongoose";
 
+const allowedOrigins = [
+  "https://n-login.vercel.app",
+  process.env.AUTH0_DOMAIN,
+];
+
+export async function OPTIONS(request) {
+
+    const origin = request.headers.get("origin");
+
+    const allowedOrigin =  allowedOrigins.includes(origin) ? origin : ""
+
+    return new NextResponse.json(null, {
+        status: 200,
+        headers: {
+          "Access-Control-Allow-Origin": allowedOrigin,
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        }
+    })
+}
+
 export async function GET(request){
     try{
         // await connectDB();
@@ -87,9 +108,15 @@ export async function POST(request){
             // return NextResponse.redirect(new URL("/", request.url));
 
             return NextResponse.json({ 
-                message: "Session Registered Successfully"
+                message: "Session Registered Successfully",
+                newUser
              } , {
-                status : 200
+                status : 200,
+                headers: {
+                    "Access-Control-Allow-Origin": process.env.AUTH0_DOMAIN,
+                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+                    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+                }
              })    
     } 
     catch (error) {

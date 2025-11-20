@@ -3,16 +3,16 @@ import { connectDB } from "@/libs/db";
 import User from "@/models/User";
 import mongoose from "mongoose";
 
-export async function OPTIONS() {
-  return new NextResponse(null, {
-    status: 200,
-    headers: {
-      "Access-Control-Allow-Origin": "*", // or 'http://localhost:3000'
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    },
-  });
-}
+// export async function OPTIONS() {
+//   return new NextResponse(null, {
+//     status: 200,
+//     headers: {
+//       "Access-Control-Allow-Origin": "*", // or 'http://localhost:3000'
+//       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+//       "Access-Control-Allow-Headers": "Content-Type, Authorization",
+//     },
+//   });
+// }
 
 export async function DELETE(request) {
     try{
@@ -34,12 +34,7 @@ export async function DELETE(request) {
 
         return NextResponse.json(
             { message: "Session Deleted", user}, 
-            { status: 200 , 
-                headers : {
-                    "Access-Control-Allow-Origin": "*",
-                    "Content-Type": "application/json",
-                }
-            }
+            { status: 200 }
         )
     }
     catch (error){
