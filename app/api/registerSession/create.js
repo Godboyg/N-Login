@@ -14,4 +14,6 @@ export const createUser = async(userId , deviceId , ip , userAgent) =>{
     })
 
     await newUser.save();
+
+    return newUser;
 }

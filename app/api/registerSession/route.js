@@ -84,7 +84,10 @@ export async function POST(request){
         const existingUser = await User.findOne({ userId , deviceId });
         console.log("existing user",existingUser);
 
-        await createUser(userId , deviceId , ip , userAgent);
+        const newUser = await createUser(userId , deviceId , ip , userAgent);
+
+        console.log("user newUser",newUser);
+
 
             // const newUser = new User({
             //     userId,
