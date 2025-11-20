@@ -1,5 +1,5 @@
 import { connectDB } from "@/libs/db";
-import Session from "../../../models/session";
+import User from "@/models/User";
 import { NextResponse } from "next/server";
 import redis from "@/app/lib/redis";
 import mongoose from "mongoose";
@@ -18,7 +18,7 @@ export async function POST(request) {
             return NextResponse.json({ message: "missing userAgent"} , { status: 400 })
         }
 
-        const user = await Session.deleteOne({ userAgent });
+        const user = await User.deleteOne({ userAgent });
 
         if(user){
             const key = `invalid-session:${userAgent}`;

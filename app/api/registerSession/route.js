@@ -1,7 +1,7 @@
 import { connectDB } from "@/libs/db";
 import { NextResponse } from "next/server";
 import redis from "@/app/lib/redis";
-import Session from "../../../models/session";
+import User from "@/models/User";
 import { redirect } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0";
 import mongoose from "mongoose";
@@ -14,7 +14,7 @@ export async function GET(request){
         const userId = searchParams.get("userId");
         console.log("userid",userId);
 
-        const user = await Session.find({ userId });
+        const user = await User.find({ userId });
         // const user = await Session.find();
 
         if(!user){
@@ -38,7 +38,7 @@ export async function GET(request){
 export async function POST(request){
     try{
         // await connectDB();
-        mongoose.connect(process.env.MONGODB_URI).then(() => console.log("✅ DB CONNECTED!"));
+        await mongoose.connect(process.env.MONGODB_URI)
         const body = await request.json();
         const { userId, ip, userAgent } = body;
         console.log("user info", userId , ip, userAgent);
@@ -53,14 +53,14 @@ export async function POST(request){
             return NextResponse.json({ error: "Missing userId" }, { status: 400 });
         }
 
-        const user = await Session.findOne({ userAgent });
+        const user = await User.findOne({ userAgent });
         console.log("user in db",user);
 
         if(user){
             return NextResponse.json({ message: "User already logged in on this device." } , { status: 409 });
         }
 
-        const activeSessions = await Session.find({ userId });
+        const activeSessions = await User.find({ userId });
         console.log("activesessions ", activeSessions);
 
         if(activeSessions.length >= MAX_DEVICES){
@@ -68,7 +68,7 @@ export async function POST(request){
             return NextResponse.json({ activeSessions })
         }
 
-        const existingUser = await Session.findOne({ userId , deviceId });
+        const existingUser = await User.findOne({ userId , deviceId });
         console.log("existing user",existingUser);
 
             const data = {
@@ -80,7 +80,7 @@ export async function POST(request){
 
             console.log("body data",data);
 
-            const newUser = await Session.create(data);
+            const newUser = await User.create(data);
 
             console.log("new user",newUser);
 
