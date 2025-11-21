@@ -104,7 +104,7 @@ function page() {
 
     console.log("skdjh",isAuthenticated);
     
-    if(!isAuthenticated){
+    if(isAuthenticated){
     const handleDeleteSession = async() => {
       const userAgent = navigator.userAgent.split(" ")[0];
       const response = await axios.delete("/api/deleteSession",{
@@ -119,9 +119,8 @@ function page() {
 
     // handleDeleteSession();
       console.log("is authei akma",isAuthenticated)
-   } else{
-    console.log("user is there!!", user);
-   }
+   } 
+   console.log("user is there!!", user);
   },[isAuthenticated])
 
   const handleChange = (e) => {
