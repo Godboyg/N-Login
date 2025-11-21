@@ -65,7 +65,7 @@ export async function POST(request){
             return NextResponse.json({ error: "Missing userId" }, { status: 400 });
         }
 
-        const user = await User.findOne({ userAgent });
+        const user = await User.find({ userAgent });
         console.log("user in db",user);
 
         if(user){
