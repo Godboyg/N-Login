@@ -87,9 +87,9 @@ function page() {
         }
       } catch (error) {
         setIsTrue(false);
-        console.log(isAuthenticated);
+        console.log("is auth",isAuthenticated);
         if(isAuthenticated){
-          logoutRef.current.click();
+          logoutRef.current?.click();
         }
         console.log("Error",error);
         console.log("response ", error.response.data.message);
