@@ -18,8 +18,8 @@ export async function GET(request){
 
         console.log("user found", user);
 
-        if(!user){
-            return NextResponse.json({ message: "user not found" }, { status: 400 })
+        if(!user || user === null){
+            return NextResponse.json({ message: "user not found"}, { status: 400 })
         }
 
         return NextResponse.json({ message: "found", user}, { status: 200})
