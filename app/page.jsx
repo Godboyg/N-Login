@@ -66,8 +66,11 @@ function page() {
         }
 
         console.log("response", user);
-        if(message === "user not found"){
+        if(user === "user not found"){
           alert("pls login again!!");
+          if(user && logoutRef.current){
+             logoutRef.current.click();
+          }
         }
 
         if(user && !user.fullName && !user.phoneNumber){
