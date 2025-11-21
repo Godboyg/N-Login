@@ -14,17 +14,5 @@ export const createUser = async(userId , deviceId , ip , userAgent) =>{
     })
 
     await newUser.save();
-
-    const user = await User.findOne({ userId , deviceId });
-    console.log("this! user",user);
-
-    const reCreate = new User({
-          userId,
-          deviceId,
-          ip,
-          userAgent
-    })
-
-    await reCreate.save();
-    return reCreate;
+    return newUser;
 }
