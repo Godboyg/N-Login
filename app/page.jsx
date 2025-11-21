@@ -174,9 +174,9 @@ function page() {
       {
         user && (
           <>
-          <div className="p-2 shadow-black w-38 shadow-[3px_3px_3px]">
-            Full Name: {formdata.fullName}
-            Phone Number: {formdata.phoneNumber}
+          <div className="p-2 shadow-black flex flex-col gap-1 rounded-md w-38 shadow-[3px_3px_3px]">
+            <span>Full Name: {formdata.fullName}</span>
+            <span>Phone Number: {formdata.phoneNumber}</span>
           </div>
           <div className="p-2 mt-3 flex items-center justify-center w-24 rounded-md hover:cursor-pointer shadow-black shadow-[5px_5px]"
           onClick={() => redirect("/profile")}>
