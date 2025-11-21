@@ -101,7 +101,7 @@ function page() {
   },[isAuthenticated])
 
   useEffect(() => {
-    if(!isAuthenticated) return;
+    // if(!isAuthenticated) return;
      console.log("skdjh",isAuthenticated);
     
     if(isAuthenticated){
