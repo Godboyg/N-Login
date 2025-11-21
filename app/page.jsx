@@ -101,10 +101,7 @@ function page() {
   },[isAuthenticated])
 
   useEffect(() => {
-    // if(!isAuthenticated) return;
-     console.log("skdjh",isAuthenticated);
-    
-    if(isAuthenticated){
+    if(!isLoading && !isAuthenticated){
     const handleDeleteSession = async() => {
       const userAgent = navigator.userAgent.split(" ")[0];
       const response = await axios.delete("/api/deleteSession",{
@@ -119,10 +116,8 @@ function page() {
 
     // handleDeleteSession();
       console.log("is authei akma",isAuthenticated)
-   } else {
-      console.log("user is there!!", user);
-    }
-  },[isAuthenticated])
+   }
+  },[isLoading , isAuthenticated])
 
   const handleChange = (e) => {
     const { name , value } = e.target;
