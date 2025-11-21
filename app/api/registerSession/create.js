@@ -20,6 +20,7 @@ export const createUser = async(userId , deviceId , ip , userAgent) =>{
     if(user){
         return newUser;
     } else {
+        console.log("this!")
         const reCreate = new User({
           userId,
           deviceId,
