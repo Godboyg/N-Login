@@ -87,7 +87,8 @@ function page() {
         }
       } catch (error) {
         setIsTrue(false);
-        if(user || isAuthenticated){
+        console.log(isAuthenticated);
+        if(isAuthenticated){
           logoutRef.current.click();
         }
         console.log("Error",error);
