@@ -101,9 +101,8 @@ function page() {
   },[isAuthenticated])
 
   useEffect(() => {
-
-    console.log("skdjh",isAuthenticated);
     if(isAuthenticated) return;
+     console.log("skdjh",isAuthenticated);
     
     if(isAuthenticated){
     const handleDeleteSession = async() => {
