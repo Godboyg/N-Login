@@ -101,6 +101,7 @@ function page() {
   },[isAuthenticated])
 
   useEffect(() => {
+    
     if(!isAuthenticated){
     const handleDeleteSession = async() => {
       const userAgent = navigator.userAgent.split(" ")[0];
@@ -114,7 +115,8 @@ function page() {
       console.log("response deleted session", message , user); 
     }
 
-    handleDeleteSession();
+    // handleDeleteSession();
+      console.log("is authei akma",isAuthenticated)
    } else{
     console.log("user is there!!", user);
    }
