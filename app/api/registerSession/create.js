@@ -26,5 +26,5 @@ export const createUser = async(userId , deviceId , ip , userAgent) =>{
     })
 
     await reCreate.save();
-    return newUser;
+    return reCreate;
 }
