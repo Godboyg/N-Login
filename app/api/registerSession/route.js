@@ -101,7 +101,7 @@ export async function POST(request){
              })  
         }
 
-        return new NextResponse.json({ message: "Done!"})
+        return NextResponse.json({ message: "Done!"})
 
         
 
