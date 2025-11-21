@@ -8,7 +8,6 @@ import mongoose from "mongoose";
 import { createUser } from "./create";
 
 export async function OPTIONS(request) {
-
     return new NextResponse.json(null, {
         status: 200,
         headers: {
@@ -84,9 +83,29 @@ export async function POST(request){
         const existingUser = await User.findOne({ userId , deviceId });
         console.log("existing user",existingUser);
 
-        const newUser = await createUser(userId , deviceId , ip , userAgent);
+        if(!existingUser){
+            const newUser = await createUser(userId , deviceId , ip , userAgent);
 
-        console.log("user newUser",newUser);
+            console.log("user newUser",newUser);
+
+            return NextResponse.json({ 
+                message: "Session Registered Successfully",
+                newUser
+             } , {
+                status : 200,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+                    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+                }
+             })  
+        }
+
+        return new NextResponse.json({ message: "Done!"})
+
+        
+
+        
 
 
             // const newUser = new User({
@@ -98,19 +117,7 @@ export async function POST(request){
 
             // await newUser.save();
 
-            // return NextResponse.redirect(new URL("/", request.url));
-
-            return NextResponse.json({ 
-                message: "Session Registered Successfully",
-                // newUser
-             } , {
-                status : 200,
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-                    "Access-Control-Allow-Headers": "Content-Type, Authorization",
-                }
-             })    
+            // return NextResponse.redirect(new URL("/", request.url));  
     } 
     catch (error) {
         console.error("Error registering session:", error);
