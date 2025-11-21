@@ -119,8 +119,9 @@ function page() {
 
     // handleDeleteSession();
       console.log("is authei akma",isAuthenticated)
-   } 
-   console.log("user is there!!", user);
+   } else {
+      console.log("user is there!!", user);
+    }
   },[isAuthenticated])
 
   const handleChange = (e) => {
