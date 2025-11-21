@@ -174,7 +174,7 @@ function page() {
       {
         user && (
           <>
-          <div className="p-3 shadow-black flex flex-col gap-1 rounded-md shadow-[3px_3px_3px]">
+          <div className="p-3 shadow-black flex flex-col gap-1 max-w-40 rounded-md shadow-[3px_3px_3px]">
             <span>Full Name: {formdata.fullName}</span>
             <span>Phone Number: {formdata.phoneNumber}</span>
           </div>
