@@ -100,29 +100,25 @@ function page() {
 
   },[isAuthenticated])
 
-  // useEffect(() => {
-  //   if(!user){
-  //   const handleDeleteSession = async() => {
-  //     const userAgent = navigator.userAgent.split(" ")[0];
-  //     const response = await axios.delete("/api/deleteSession",{
-  //       data: {
-  //         userAgent
-  //       }
-  //      })
+  useEffect(() => {
+    if(!isAuthenticated){
+    const handleDeleteSession = async() => {
+      const userAgent = navigator.userAgent.split(" ")[0];
+      const response = await axios.delete("/api/deleteSession",{
+        data: {
+          userAgent
+        }
+       })
 
-  //     const { message, user } = response.data;
-  //     console.log("response deleted session", message , user); 
-  //   }
+      const { message, user } = response.data;
+      console.log("response deleted session", message , user); 
+    }
 
-  //   handleDeleteSession();
-  //  } else{
-  //   console.log("user is there!!", user);
-  //  }
-
-  //   if(user){
-  //     setIsTrue(true);
-  //   }
-  // },[user])
+    handleDeleteSession();
+   } else{
+    console.log("user is there!!", user);
+   }
+  },[isAuthenticated])
 
   const handleChange = (e) => {
     const { name , value } = e.target;
