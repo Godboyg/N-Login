@@ -114,8 +114,8 @@ function page() {
       console.log("response deleted session", message , user); 
     }
 
-    // handleDeleteSession();
-      console.log("is authei akma",isAuthenticated)
+    handleDeleteSession();
+      console.log("isAuthenticated",isAuthenticated)
    }
   },[isLoading , isAuthenticated])
 
