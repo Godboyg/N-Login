@@ -15,7 +15,8 @@ export const createUser = async(userId , deviceId , ip , userAgent) =>{
 
     await newUser.save();
 
-    const user = await User.findOne({ userId , deviceId })
+    const user = await User.findOne({ userId , deviceId });
+    console.log("this! user",user);
 
     if(user){
         return newUser;
