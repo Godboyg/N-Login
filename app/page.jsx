@@ -68,12 +68,12 @@ function page() {
         }
 
         console.log("response", user, message);
-        if(message === "user not found"){
-          alert("pls login again!!");
-          if(user && logoutRef.current){
-             logoutRef.current.click();
-          }
-        }
+        // if(message === "user not found"){
+        //   alert("pls login again!!");
+        //   if(user && logoutRef.current){
+        //      logoutRef.current.click();
+        //   }
+        // }
 
         if(user && !user.fullName && !user.phoneNumber){
           setIsTrue(true);
@@ -86,7 +86,7 @@ function page() {
         }
       } catch (error) {
         setIsTrue(false);
-        if(user && logoutRef.current){
+        if(user){
           logoutRef.current.click();
         }
         console.log("Error",error);
