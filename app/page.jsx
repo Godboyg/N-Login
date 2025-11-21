@@ -56,6 +56,8 @@ function page() {
           }
         })
 
+        console.log("rs data", response.data);
+
         const { message , user } = response.data;
 
         if(user && user.fullName && user.phoneNumber){
@@ -65,8 +67,8 @@ function page() {
           })
         }
 
-        console.log("response", user);
-        if(user === "user not found"){
+        console.log("response", user, message);
+        if(message === "user not found"){
           alert("pls login again!!");
           if(user && logoutRef.current){
              logoutRef.current.click();
