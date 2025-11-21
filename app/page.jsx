@@ -93,29 +93,29 @@ function page() {
 
   },[])
 
-  useEffect(() => {
-    if(!user){
-    const handleDeleteSession = async() => {
-      const userAgent = navigator.userAgent.split(" ")[0];
-      const response = await axios.delete("/api/deleteSession",{
-        data: {
-          userAgent
-        }
-       })
+  // useEffect(() => {
+  //   if(!user){
+  //   const handleDeleteSession = async() => {
+  //     const userAgent = navigator.userAgent.split(" ")[0];
+  //     const response = await axios.delete("/api/deleteSession",{
+  //       data: {
+  //         userAgent
+  //       }
+  //      })
 
-      const { message, user } = response.data;
-      console.log("response deleted session", message , user); 
-    }
+  //     const { message, user } = response.data;
+  //     console.log("response deleted session", message , user); 
+  //   }
 
-    handleDeleteSession();
-   } else{
-    console.log("user is there!!", user);
-   }
+  //   handleDeleteSession();
+  //  } else{
+  //   console.log("user is there!!", user);
+  //  }
 
-    if(user){
-      setIsTrue(true);
-    }
-  },[user])
+  //   if(user){
+  //     setIsTrue(true);
+  //   }
+  // },[user])
 
   const handleChange = (e) => {
     const { name , value } = e.target;
