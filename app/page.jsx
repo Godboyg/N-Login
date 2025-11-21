@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 function page() {
 
   const {user , isLoading } = useUser();
+  const isAuthenticated = !!user && !isLoading;
   const [isTrue , setIsTrue] = useState(false);
   const [stage , setStage] = useState("add");
   const logoutRef = useRef(false);
@@ -86,7 +87,7 @@ function page() {
         }
       } catch (error) {
         setIsTrue(false);
-        if(user){
+        if(user || isAuthenticated){
           logoutRef.current.click();
         }
         console.log("Error",error);
