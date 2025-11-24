@@ -105,7 +105,7 @@ function page() {
             deviceId: device || localStorage.getItem("device_id")
           })
 
-          cosnole.log("response !!!!",response.data);
+          console.log("response !!!!",response.data);
         }
         console.log("Error",error);
         console.log("response ", error.response.data.message);
