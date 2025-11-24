@@ -28,6 +28,7 @@ function page() {
       if(message === "Session Deleted"){
         if(logoutRef.current){
           logoutRef.current.click();
+          window.location.reload();
         }
       }
     } catch(error) {
