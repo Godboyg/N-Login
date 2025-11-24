@@ -1,4 +1,3 @@
-import crypto from "node:crypto";
 
 export function getDeviceId() {
   let deviceId = localStorage.getItem("device_id");
