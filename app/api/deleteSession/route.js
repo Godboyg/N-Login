@@ -29,7 +29,7 @@ export async function DELETE(request) {
             return NextResponse.json({ message: "missing userAgent" }, { status: 400 });
         }
 
-        const user = await Session.deleteOne({ userId, deviceId });
+        const user = await Session.deleteOne({ deviceId });
 
         console.log("all user deleted", user);
 
