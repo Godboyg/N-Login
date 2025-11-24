@@ -21,7 +21,7 @@ export async function DELETE(request) {
         mongoose.connect(process.env.MONGODB_URI).then(() => console.log("✅ DB CONNECTED!"));
         const body = await request.json();
         const { userId , deviceId } = body;
-        console.log("deviceId!!!", deviceId);
+        console.log("deviceId!!!", deviceId, userId);
 
         // const agent = userAgent.split(" ")[0];
 
