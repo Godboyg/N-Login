@@ -55,12 +55,12 @@ export async function POST(request){
             return NextResponse.json({ error: "Missing userId" }, { status: 400 });
         }
 
-        const user = await User.findOne({ userAgent });
-        console.log("user in db",user);
+        //const user = await User.findOne({ userAgent });
+        //console.log("user in db",user);
 
-        if(user){
-            return NextResponse.json({ message: "User already logged in on this device." } , { status: 409 });
-        }
+        //if(user){
+        //    return NextResponse.json({ message: "User already logged in on this device." } , { status: 409 });
+       // }
 
         const activeSessions = await Session.find({ userId });
         console.log("activesessions ", activeSessions);
