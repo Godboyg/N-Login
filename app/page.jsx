@@ -1,3 +1,4 @@
+
 "use client"
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { useUser } from "@auth0/nextjs-auth0/client";
@@ -88,6 +89,7 @@ function page() {
 
         if(user && !user.fullName && !user.phoneNumber){
           setIsTrue(true);
+          window.location.reload();
           setFormData({
             fullName: "",
             phoneNumber: ""
