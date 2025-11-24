@@ -25,7 +25,7 @@ export async function DELETE(request) {
 
         // const agent = userAgent.split(" ")[0];
 
-        if(!userId || deviceId){
+        if(!deviceId){
             return NextResponse.json({ message: "missing userAgent" }, { status: 400 });
         }
 
