@@ -5,8 +5,6 @@ const SessionSchema = new Schema({
   deviceId: { type: String, required: true },
   ip: { type: String },
   userAgent: { type: String },
-  fullName: { type: String },
-  phoneNumber: { type: Number},
   createdAt: { type: Date, default: Date.now },
   lastActive: { type: Date, default: Date.now },
 });

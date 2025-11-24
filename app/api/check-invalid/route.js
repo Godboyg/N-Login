@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 
 export async function POST(request){
     try{
-        const { userAgent } = await request.json();
+        const { deviceId } = await request.json();
 
-        const key = `invalid-session:${userAgent}`;
+        const key = `invalid-session:${deviceId}`;
 
         const invalid = await redis.get(key);
 

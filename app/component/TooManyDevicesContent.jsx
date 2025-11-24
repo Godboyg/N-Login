@@ -17,9 +17,11 @@ export default function TooManyDevicesPage() {
   useEffect(() => {
     async function fetchUser() {
       try {
+        const deviceId = localStorage.getItem("device_id")
         const response = await axios.get("/api/registerSession",{
           params: {
-           userId: userId
+           userId: userId,
+           deviceId: deviceId
           }
         });
         console.log("response", response.data.user);
@@ -33,10 +35,11 @@ export default function TooManyDevicesPage() {
     fetchUser();
   }, [loading]);
 
-  const handleClick = async(userAgent) => {
-
+  const handleClick = async(deviceId) => {
+    // const deviceId = localStorage.getItem("device_id")
     const response = await axios.post("/api/forceLogout",{
-      userAgent: userAgent
+      userId: userId,
+      deviceId: deviceId
     });
 
     const { message, user }  = response.data;
@@ -64,17 +67,17 @@ export default function TooManyDevicesPage() {
             devices.map((device, key) => (
                 <div className="p-2 group hover:cursor-pointer relative flex flex-col gap-0.5 items-center shadow-black shadow-[2px_2px_2px]">
                     <div className="absolute p-2 z-9999 top-5 right-5 hidden lg:group-hover:block hover:cursor-pointer"
-                    onClick={() => handleClick(device.userAgent.split(" ")[0])}>
+                    onClick={() => handleClick(device.deviceId)}>
                       Remove User
                     </div>
                     <div className="absolute z-9999 top-5 right-0 block lg:hidden"
-                    onClick={() => handleClick(device.userAgent.split(" ")[0])}>
+                    onClick={() => handleClick(device.deviceId)}>
                       Remove
                     </div>
                     <p>{device.userId}</p>
-                    <p>{device.userAgent.split(" ")[0]}</p>
+                    <p>{device.fullName}</p>
                     <p>{device.deviceId}</p>
-                    <p>{device.ip}</p>
+                    <p>{device.phoneNumber}</p>
                 </div>
             ))
         ) : (

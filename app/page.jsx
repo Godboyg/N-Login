@@ -9,14 +9,17 @@ import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast';
 import { userAgent } from 'next/server';
 import { useRouter } from "next/navigation";
+import { getDeviceId } from './lib/deviceId';
 
 function page() {
 
   const {user , isLoading } = useUser();
+  const isAuthenticated = user ? true : false;
   const [isTrue , setIsTrue] = useState(false);
+  const [device , setDevice] = useState();
   const [stage , setStage] = useState("add");
+  const [currentUserId , setCurrentUserId] = useState(null);
   const logoutRef = useRef(false);
-  const clickedOnce = useRef(false);
   const [formdata , setFormData] = useState({
     fullName: "",
     phoneNumber: ""
@@ -27,7 +30,9 @@ function page() {
     const interval = setTimeout(async() => {
       try{
         const res = await axios.post("/api/check-invalid",{
-          userAgent: navigator.userAgent.split(" ")[0]
+          // userAgent: navigator.userAgent.split(" ")[0]
+          // userId: user.sub,
+          deviceId: device || localStorage.getItem("device_id")
         })
 
         if(res.data.invalid){
@@ -48,15 +53,23 @@ function page() {
   useEffect(() => {
     const check = async() => {
       try{
-        const agent = navigator.userAgent.split(" ")[0];
-        console.log(agent);
+        const deviceId = getDeviceId();
+        setDevice(deviceId);
+        console.log("device id", deviceId);
         const response = await axios.get("/api/session",{
           params: {
-            userAgent : agent
+            deviceId: deviceId
           }
         })
 
+        console.log("rs data", response.data);
+
         const { message , user } = response.data;
+
+        // if(user){
+        //   setCurrentUserId(user._id);
+        //   localStorage.setItem("userId", user._id);
+        // }
 
         if(user && user.fullName && user.phoneNumber){
           setFormData({
@@ -65,10 +78,13 @@ function page() {
           })
         }
 
-        console.log("response", user);
-        if(message === "user not found"){
-          alert("pls login again!!");
-        }
+        console.log("response", user, message);
+        // if(message === "user not found"){
+        //   alert("pls login again!!");
+        //   if(user && logoutRef.current){
+        //      logoutRef.current.click();
+        //   }
+        // }
 
         if(user && !user.fullName && !user.phoneNumber){
           setIsTrue(true);
@@ -81,8 +97,15 @@ function page() {
         }
       } catch (error) {
         setIsTrue(false);
-        if(user && logoutRef.current){
-          logoutRef.current.click();
+        console.log("is auth",isAuthenticated);
+        if(isAuthenticated){
+          // logoutRef.current?.click();
+          const response = await axios.post("/api/createSession", {
+            userId: user.sub,
+            deviceId: device || localStorage.getItem("device_id")
+          })
+
+          cosnole.log("response !!!!",response.data);
         }
         console.log("Error",error);
         console.log("response ", error.response.data.message);
@@ -91,31 +114,27 @@ function page() {
 
     check();
 
-  },[])
+  },[isAuthenticated])
 
   useEffect(() => {
-    if(!user){
+    if(!isLoading && !isAuthenticated){
     const handleDeleteSession = async() => {
-      const userAgent = navigator.userAgent.split(" ")[0];
+      // const userAgent = navigator.userAgent.split(" ")[0];
       const response = await axios.delete("/api/deleteSession",{
         data: {
-          userAgent
+          userId: user?.sub,
+          deviceId: device || localStorage.getItem("device_id")
         }
        })
 
-      const { message, user } = response.data;
-      console.log("response deleted session", message , user); 
+      const { message, Session } = response.data;
+      console.log("response deleted session", message , Session); 
     }
 
     handleDeleteSession();
-   } else{
-    console.log("user is there!!", user);
+      console.log("isAuthenticated",isAuthenticated)
    }
-
-    if(user){
-      setIsTrue(true);
-    }
-  },[user])
+  },[isLoading , isAuthenticated])
 
   const handleChange = (e) => {
     const { name , value } = e.target;
@@ -133,7 +152,9 @@ function page() {
       //   alert("pls fill the fullName and Number");
       // }
       const response = await axios.patch("/api/session",{
-        userAgent: navigator.userAgent.split(" ")[0],
+        // userAgent: navigator.userAgent.split(" ")[0],
+        userId: user.sub,
+        deviceId: device || localStorage.getItem("device_id"),
         fullName : formdata.fullName, 
         phoneNumber : formdata.phoneNumber
       })
@@ -172,9 +193,9 @@ function page() {
       {
         user && (
           <>
-          <div className="p-2 shadow-black w-38 shadow-[3px_3px_3px]">
-            Full Name: {formdata.fullName}
-            Phone Number: {formdata.phoneNumber}
+          <div className="p-3 shadow-black flex flex-col gap-1 max-w-56 rounded-md shadow-[3px_3px_3px]">
+            <span>Full Name: {formdata.fullName}</span>
+            <span>Phone Number: {formdata.phoneNumber}</span>
           </div>
           <div className="p-2 mt-3 flex items-center justify-center w-24 rounded-md hover:cursor-pointer shadow-black shadow-[5px_5px]"
           onClick={() => redirect("/profile")}>

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/libs/db";
 import User from "@/models/User";
+import Session from "@/models/Session";
 import mongoose from "mongoose";
 
 export async function GET(request){
@@ -8,13 +9,13 @@ export async function GET(request){
         // await connectDB();
         mongoose.connect(process.env.MONGODB_URI).then(() => console.log("✅ DB CONNECTED!"));
         const { searchParams } =  new URL(request.url);
-        const userAgent = searchParams.get("userAgent");
+        const deviceId = searchParams.get("deviceId");
 
-        console.log("user AGENT", userAgent);
+        console.log("deviceId !", deviceId);
 
         // const userAgent = User.trim();
 
-        const user = await User.findOne({ userAgent });
+        const user = await Session.findOne({ deviceId });
 
         console.log("user found", user);
 
@@ -33,9 +34,9 @@ export async function GET(request){
 export async function PATCH(req) {
   try {
     await connectDB();
-    const { userAgent ,fullName, phoneNumber } = await req.json();
+    const { userId , deviceId ,fullName, phoneNumber } = await req.json();
 
-    console.log("full name and phone number", userAgent , fullName , phoneNumber);
+    console.log("full name and phone number", userId , deviceId , fullName , phoneNumber);
 
     if (!fullName && !phoneNumber) {
       return NextResponse.json(
@@ -44,22 +45,13 @@ export async function PATCH(req) {
       );
     }
 
-    const user = await User.findOne({ userAgent });
+    const user = await Session.findOne({ userId , deviceId });
 
     if(!user){
         return NextResponse.json({ message: "user not found!"}, { status: 400});
     }
 
     if(!user.phoneNumber && !user.fullName){
-        // const updatedSession = await Session.findByIdAndUpdate(
-        //  userAgent,
-        //   {
-        //     ...(fullName && { fullName }),
-        //     ...(phoneNumber && { phoneNumber }),
-        //   },
-        //   { new: true }
-        // );
-
         user.fullName = fullName;
         user.phoneNumber = phoneNumber;
 

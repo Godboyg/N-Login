@@ -3,14 +3,15 @@ import User from "@/models/User";
 import { NextResponse } from "next/server";
 import redis from "@/app/lib/redis";
 import mongoose from "mongoose";
+import Session from "@/models/Session";
 
 export async function POST(request) {
     try{
         // await connectDB();
         mongoose.connect(process.env.MONGODB_URI).then(() => console.log("✅ DB CONNECTED!"));
         const body = await request.json();
-        const { userAgent } = body;
-        console.log("user agent", userAgent);
+        const { userId , deviceId } = body;
+        console.log("user agent", deviceId);
 
         // const agent = userAgent.split(" ")[0];
 
@@ -18,10 +19,10 @@ export async function POST(request) {
             return NextResponse.json({ message: "missing userAgent"} , { status: 400 })
         }
 
-        const user = await User.deleteOne({ userAgent });
+        const user = await Session.deleteOne({ userId , deviceId });
 
         if(user){
-            const key = `invalid-session:${userAgent}`;
+            const key = `invalid-session:${deviceId}`;
             await redis.set(
                 key,
                 JSON.stringify({

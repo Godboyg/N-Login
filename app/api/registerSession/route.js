@@ -6,18 +6,8 @@ import { redirect } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0";
 import mongoose from "mongoose";
 import { createUser } from "./create";
-
-export async function OPTIONS(request) {
-
-    return new NextResponse.json(null, {
-        status: 200,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        }
-    })
-}
+import Session from "@/models/Session";
+import { NextScript } from "next/document";
 
 export async function GET(request){
     try{
@@ -25,9 +15,11 @@ export async function GET(request){
         mongoose.connect(process.env.MONGODB_URI).then(() => console.log("✅ DB CONNECTED!"));
         const { searchParams } = new URL(request.url);
         const userId = searchParams.get("userId");
+        const deviceId = searchParams.get("deviceId");
         console.log("userid",userId);
+        console.log("deviceId",deviceId);
 
-        const user = await User.find({ userId });
+        const user = await Session.findOne({ userId , deviceId });
         // const user = await Session.find();
 
         if(!user){
@@ -73,7 +65,7 @@ export async function POST(request){
             return NextResponse.json({ message: "User already logged in on this device." } , { status: 409 });
         }
 
-        const activeSessions = await User.find({ userId });
+        const activeSessions = await Session.find({ userId });
         console.log("activesessions ", activeSessions);
 
         if(activeSessions.length >= MAX_DEVICES){
@@ -81,36 +73,23 @@ export async function POST(request){
             return NextResponse.json({ activeSessions })
         }
 
-        const existingUser = await User.findOne({ userId , deviceId });
+        const existingUser = await User.findOne({ userId });
         console.log("existing user",existingUser);
 
-        const newUser = await createUser(userId , deviceId , ip , userAgent);
+        if(!existingUser){
+            const newUser = await createUser(userId , deviceId , ip , userAgent);
 
-        console.log("user newUser",newUser);
-
-
-            // const newUser = new User({
-            //     userId,
-            //     deviceId,
-            //     ip,
-            //     userAgent
-            // });
-
-            // await newUser.save();
-
-            // return NextResponse.redirect(new URL("/", request.url));
+            console.log("user newUser",newUser);
 
             return NextResponse.json({ 
-                message: "Session Registered Successfully",
-                // newUser
-             } , {
-                status : 200,
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-                    "Access-Control-Allow-Headers": "Content-Type, Authorization",
-                }
-             })    
+               message: "Session Registered Successfully",
+               // newUser
+            } , {
+                status : 200
+            }) 
+        } 
+        
+        return NextResponse.json({ message: "Done!" })
     } 
     catch (error) {
         console.error("Error registering session:", error);

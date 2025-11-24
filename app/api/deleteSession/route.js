@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/libs/db";
 import User from "@/models/User";
 import mongoose from "mongoose";
+import Session from "@/models/Session";
 
 // export async function OPTIONS() {
 //   return new NextResponse(null, {
@@ -19,21 +20,21 @@ export async function DELETE(request) {
         // await connectDB();
         mongoose.connect(process.env.MONGODB_URI).then(() => console.log("✅ DB CONNECTED!"));
         const body = await request.json();
-        const { userAgent } = body;
-        console.log("user agent!!!", userAgent);
+        const { userId , deviceId } = body;
+        console.log("deviceId!!!", deviceId);
 
         // const agent = userAgent.split(" ")[0];
 
-        if(!userAgent){
+        if(!userId || deviceId){
             return NextResponse.json({ message: "missing userAgent" }, { status: 400 });
         }
 
-        const user = await User.deleteOne({ userAgent });
+        const user = await Session.deleteOne({ userId, deviceId });
 
         console.log("all user deleted", user);
 
         return NextResponse.json(
-            { message: "Session Deleted", user}, 
+            { message: "Session Deleted", Session: user}, 
             { status: 200 }
         )
     }

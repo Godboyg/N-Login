@@ -11,17 +11,19 @@ function page() {
 
   const handleDeleteSession = async() => {
     try{
-      const userAgent = navigator.userAgent.split(" ")[0]
+      const device = localStorage.getItem("device_id")
+      // const userAgent = navigator.userAgent.split(" ")[0]
       const response = await axios.delete("/api/deleteSession",{
         data: {
-          userAgent
+          userId: user.sub,
+          deviceId: device || localStorage.getItem("device_id")
         }
       })
 
-      const { message , user } = response.data;
+      const { message , Session } = response.data;
 
       console.log("response", response.data);
-      console.log("user session deleted", user);
+      console.log("user session deleted", Session);
 
       if(message === "Session Deleted"){
         if(logoutRef.current){
