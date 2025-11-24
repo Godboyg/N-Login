@@ -15,7 +15,7 @@ function page() {
       // const userAgent = navigator.userAgent.split(" ")[0]
       const response = await axios.delete("/api/deleteSession",{
         data: {
-          userId: user.sub,
+          userId: user?.sub,
           deviceId: device || localStorage.getItem("device_id")
         }
       })
