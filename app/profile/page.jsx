@@ -9,9 +9,8 @@ function page() {
   const { user , isLoading } = useUser();
   const logoutRef = useRef(null);
 
-  const handleDeleteSession = async(e) => {
+  const handleDeleteSession = async() => {
     try{
-      e.preventDefault();
       const device = localStorage.getItem("device_id")
       // const userAgent = navigator.userAgent.split(" ")[0]
       const response = await axios.delete("/api/deleteSession",{
