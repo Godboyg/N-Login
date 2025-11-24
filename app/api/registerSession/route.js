@@ -2,12 +2,9 @@ import { connectDB } from "@/libs/db";
 import { NextResponse } from "next/server";
 import redis from "@/app/lib/redis";
 import User from "@/models/User";
-import { redirect } from "next/navigation";
-import { useUser } from "@auth0/nextjs-auth0";
 import mongoose from "mongoose";
 import { createUser } from "./create";
 import Session from "@/models/Session";
-import { NextScript } from "next/document";
 
 export async function GET(request){
     try{
