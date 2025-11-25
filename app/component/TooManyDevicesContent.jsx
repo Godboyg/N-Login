@@ -25,6 +25,9 @@ export default function TooManyDevicesPage() {
           }
         });
         console.log("response", response.data.user);
+        if(response.data.message === "no user found"){
+          setDevices([]);
+        }
         setDevices(response.data.user);
         setLoading(false);
       } catch (err) {
