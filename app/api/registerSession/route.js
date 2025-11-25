@@ -16,7 +16,7 @@ export async function GET(request){
         console.log("userid",userId);
         console.log("deviceId",deviceId);
 
-        const user = await Session.findOne({ userId , deviceId });
+        const user = await Session.find({ userId });
         // const user = await Session.find();
 
         if(!user){
