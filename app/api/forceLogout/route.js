@@ -31,6 +31,7 @@ export async function POST(request) {
                 }),
                 { ex: 86400 }
             )
+            return;
         }
 
         console.log("all user deleted", user);
