@@ -89,7 +89,7 @@ function page() {
 
         if(user && !user.fullName && !user.phoneNumber){
           setIsTrue(true);
-          window.location.reload();
+          // window.location.reload();
           setFormData({
             fullName: "",
             phoneNumber: ""
