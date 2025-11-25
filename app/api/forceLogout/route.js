@@ -15,7 +15,7 @@ export async function POST(request) {
 
         // const agent = userAgent.split(" ")[0];
 
-        if(!userAgent){
+        if(!userId || !deviceId){
             return NextResponse.json({ message: "missing userAgent"} , { status: 400 })
         }
 
