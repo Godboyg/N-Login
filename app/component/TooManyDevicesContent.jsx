@@ -40,17 +40,21 @@ export default function TooManyDevicesPage() {
 
   const handleClick = async(deviceId) => {
     // const deviceId = localStorage.getItem("device_id")
-    const response = await axios.post("/api/forceLogout",{
-      userId: userId,
-      deviceId: deviceId
-    });
+    try{
+      const response = await axios.post("/api/forceLogout",{
+         userId: userId,
+         deviceId: deviceId
+      });
 
-    const { message, user }  = response.data;
+      const { message, user }  = response.data;
     
-    console.log("message: " , message);
-    console.log("user logged out: ", user);
-    alert("redirecting to / page");
-    router.push("/");
+      console.log("message: " , message);
+      console.log("user logged out: ", user);
+      alert("redirecting to / page");
+      router.push("/");
+    } catch(error) {
+      console.log("error",error);
+    }
   }
 
   return (
