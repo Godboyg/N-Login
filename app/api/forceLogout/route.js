@@ -31,7 +31,7 @@ export async function POST(request) {
                 }),
                 { ex: 86400 }
             )
-            return;
+            return NextResponse.json({ message: "Added To Redis" }, { status: 200 });
         }
 
         console.log("all user deleted", user);
