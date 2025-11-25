@@ -168,6 +168,7 @@ function page() {
 
       if(response.data.message === "Session updated successfully"){
         setIsTrue(false);
+        window.location.reload();
         toast.success("fullName and phoneNumber added!", { duration: 1000 });
         setStage("add");
       }
