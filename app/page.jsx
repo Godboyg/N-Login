@@ -89,7 +89,6 @@ function page() {
 
         if(user && !user.fullName && !user.phoneNumber){
           setIsTrue(true);
-          // window.location.reload();
           setFormData({
             fullName: "",
             phoneNumber: ""
@@ -108,6 +107,10 @@ function page() {
           })
 
           console.log("response !!!!",response.data);
+
+          if(response.data.message === "new user session created"){
+            window.location.reload();
+          }
         }
         console.log("Error",error);
         console.log("response ", error.response.data.message);
