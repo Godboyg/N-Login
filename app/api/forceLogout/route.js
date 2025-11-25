@@ -20,6 +20,7 @@ export async function POST(request) {
         }
 
         const user = await Session.deleteOne({ userId , deviceId });
+        console.log("all user deleted", user);
 
         if(user){
             const key = `invalid-session:${deviceId}`;
@@ -33,8 +34,6 @@ export async function POST(request) {
             )
             return NextResponse.json({ message: "Added To Redis" }, { status: 200 });
         }
-
-        console.log("all user deleted", user);
 
         return NextResponse.json({ message: "deleted session" , user} , { status: 200 })
     } catch (error) {
