@@ -54,8 +54,14 @@ function page() {
   useEffect(() => {
     const check = async() => {
       try{
-        const deviceId = getDeviceId();
-        setDevice(deviceId);
+        var deviceId;
+        const device = localStorage.getItem("device_id");
+        if(!device && !isLoading && isAuthenticated){
+          logoutRef.current?.click();
+        } else {
+          deviceId = getDeviceId();
+          setDevice(deviceId);
+        }
         console.log("device id", deviceId);
         const response = await axios.get("/api/session",{
           params: {
