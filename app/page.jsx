@@ -105,7 +105,8 @@ function page() {
       } catch (error) {
         setIsTrue(false);
         console.log("is auth",isAuthenticated);
-        if(isAuthenticated){
+        const device = localStorage.getItem("device_id");
+        if(isAuthenticated && device){
           // logoutRef.current?.click();
           const response = await axios.post("/api/createSession", {
             userId: user.sub,
